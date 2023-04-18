@@ -1,7 +1,9 @@
 from django.db import models
+from shortuuid.django_fields import ShortUUIDField
 
 # Teacher model
 class Teacher(models.Model):
+    tid = ShortUUIDField(unique=True, length=10, max_length=20, prefix="T", alphabet="abcdefgh12345")
     name = models.CharField(max_length=100)
     email = models.EmailField(max_length=100)
     password = models.CharField(max_length=100)
@@ -29,6 +31,7 @@ class SubjectCategory(models.Model):
     
 # Subject model
 class Subject(models.Model):
+    sid = ShortUUIDField(unique=True, length=10, max_length=20, alphabet="abcdefgh12345")
     category = models.ForeignKey(SubjectCategory, on_delete=models.CASCADE)
     Teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
@@ -54,6 +57,7 @@ class Class(models.Model):
     
 # Student model
 class Student(models.Model):
+    sid = ShortUUIDField(unique=True, length=10, max_length=20, prefix="stu", alphabet="abcdefgh12345")
     name = models.CharField(max_length=100)
     email = models.EmailField(max_length=100)
     password = models.CharField(max_length=100)
