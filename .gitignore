@@ -132,3 +132,4 @@ dmypy.json
 .pyre/
 
 staticfiles/
+teacher_image
