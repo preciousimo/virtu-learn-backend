@@ -9,7 +9,7 @@ class Teacher(models.Model):
     password = models.CharField(max_length=100)
     qualification = models.CharField(max_length=200)
     mobile_no = models.CharField(max_length=20)
-    address = models.CharField(max_length=200)
+    skills = models.CharField(max_length=200)
     image = models.ImageField(upload_to='teacher_image', blank=True)
 
     class Meta:
