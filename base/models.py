@@ -10,7 +10,7 @@ class Teacher(models.Model):
     qualification = models.CharField(max_length=200)
     mobile_no = models.CharField(max_length=20)
     skills = models.CharField(max_length=200)
-    image = models.ImageField(upload_to='teacher_image', blank=True)
+    image = models.ImageField(upload_to='teacher_image', blank=True, null=True)
 
     class Meta:
         verbose_name_plural = 'Teachers'
@@ -63,7 +63,7 @@ class Student(models.Model):
     password = models.CharField(max_length=100)
     mobile_no = models.CharField(max_length=20)
     address = models.CharField(max_length=200)
-    image = models.ImageField(upload_to='student_image', blank=True)
+    image = models.ImageField(upload_to='student_image', blank=True, null=True)
     class_name = models.ForeignKey(Class, on_delete=models.CASCADE)
 
     class Meta:
