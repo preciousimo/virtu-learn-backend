@@ -2,7 +2,7 @@ from django.contrib import admin
 from base.models import Teacher, CourseCategory, Course, Student
 
 class TeacherAdmin(admin.ModelAdmin):
-    list_display = ['full_name', 'email', 'mobile_no', 'image']
+    list_display = ['name', 'email', 'mobile_no', 'image']
 
 class CourseCategoryAdmin(admin.ModelAdmin):
     list_display = ['title', 'description']
@@ -11,7 +11,7 @@ class CourseAdmin(admin.ModelAdmin):
     list_display = ['category', 'teacher', 'title']
 
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ['full_name', 'email', 'mobile_no']
+    list_display = ['name', 'email', 'mobile_no']
 
 
 

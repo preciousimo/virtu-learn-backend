@@ -2,7 +2,7 @@ from django.db import models
 
 # Teacher model
 class Teacher(models.Model):
-    full_name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
     email = models.EmailField(max_length=100)
     password = models.CharField(max_length=100)
     qualification = models.CharField(max_length=200)
@@ -33,6 +33,8 @@ class Course(models.Model):
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     description = models.TextField()
+    featured_img = models.ImageField(upload_to='course_imgs/', null=True)
+    techs = models.TextField(null=True)
 
     class Meta:
         verbose_name_plural = 'Courses'
@@ -42,7 +44,7 @@ class Course(models.Model):
     
 # Student model
 class Student(models.Model):
-    full_name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
     email = models.EmailField(max_length=100)
     password = models.CharField(max_length=100)
     mobile_no = models.CharField(max_length=20)
