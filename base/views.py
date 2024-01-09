@@ -16,7 +16,6 @@ class TeacherList(generics.ListCreateAPIView):
 class TeacherDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer
-    # permission_classes = [permissions.IsAuthenticated]
 
 @csrf_exempt
 def teacher_login(request):
@@ -34,9 +33,16 @@ def teacher_login(request):
 class CategoryList(generics.ListCreateAPIView):
     queryset = CourseCategory.objects.all()
     serializer_class = CategorySerializer
-    # permission_classes = [permissions.IsAuthenticated]
     
 class CourseList(generics.ListCreateAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    
+class TeacherCourseList(generics.ListAPIView):
+    serializer_class = CourseSerializer
+    
+    def get_queryset(self):
+        teacher_id = self.kwargs['teacher_id']
+        teacher = Teacher.objects.get(pk=teacher_id)
+        return Course.objects.filter(teacher=teacher)
+            
