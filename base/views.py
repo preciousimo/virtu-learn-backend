@@ -1,4 +1,4 @@
-from django.shortcuts import render 
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.views import APIView
@@ -50,4 +50,11 @@ class TeacherCourseList(generics.ListAPIView):
 class ChapterList(generics.ListCreateAPIView):
     queryset = Chapter.objects.all()
     serializer_class = ChapterSerializer
-            
+    
+class CourseChapterList(generics.ListAPIView):
+    serializer_class = ChapterSerializer
+    
+    def get_queryset(self):
+        course_id = self.kwargs['course_id']
+        course = get_object_or_404(Course, pk=course_id)
+        return Chapter.objects.filter(course=course)
