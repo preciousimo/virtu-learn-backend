@@ -50,7 +50,11 @@ class TeacherCourseList(generics.ListAPIView):
 class ChapterList(generics.ListCreateAPIView):
     queryset = Chapter.objects.all()
     serializer_class = ChapterSerializer
-    
+
+class ChapterDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Chapter.objects.all()
+    serializer_class = ChapterSerializer
+
 class CourseChapterList(generics.ListAPIView):
     serializer_class = ChapterSerializer
     
