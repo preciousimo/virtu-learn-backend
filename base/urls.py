@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import TeacherList, TeacherDetail, teacher_login, CategoryList, CourseList, TeacherCourseList, ChapterDetailView, ChapterList, CourseChapterList, TeacherCourseDetail
+from .views import *
 
 urlpatterns = [
     path('teacher/', TeacherList.as_view()),
@@ -8,6 +8,7 @@ urlpatterns = [
     
     path('category/', CategoryList.as_view()),
     path('course/', CourseList.as_view()),
+    path('course/<int:pk>', CourseDetailView.as_view()),
     path('chapter/', ChapterList.as_view()),
     path('chapter/<int:pk>', ChapterDetailView.as_view()),
     path('course-chapters/<int:course_id>', CourseChapterList.as_view()),

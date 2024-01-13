@@ -18,8 +18,6 @@ class TeacherSerializer(serializers.ModelSerializer):
             validated_data['password'] = make_password(validated_data['password'])
         return super(TeacherSerializer, self).update(instance, validated_data)
 
-
-        
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = CourseCategory
@@ -28,7 +26,8 @@ class CategorySerializer(serializers.ModelSerializer):
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
-        fields = [ 'id', 'category', 'teacher', 'title', 'description', 'featured_img', 'techs']
+        fields = [ 'id', 'category', 'teacher', 'title', 'description', 'featured_img', 'techs', 'course_chapters']
+        depth=1
         
 
 class ChapterSerializer(serializers.ModelSerializer):
