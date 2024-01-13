@@ -3,12 +3,13 @@ from django.core.serializers import serialize
 
 # Teacher model
 class Teacher(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, null=True)
+    detail = models.TextField(null=True)
     email = models.EmailField(max_length=100) 
     password = models.CharField(max_length=100)
     qualification = models.CharField(max_length=200)
     mobile_no = models.CharField(max_length=20)
-    skills = models.CharField(max_length=200)
+    skills = models.TextField()
     image = models.ImageField(upload_to='teacher_image', blank=True, null=True)
 
     class Meta:
@@ -31,7 +32,7 @@ class CourseCategory(models.Model):
 # Course model
 class Course(models.Model):
     category = models.ForeignKey(CourseCategory, on_delete=models.CASCADE)
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='teacher_courses')
     title = models.CharField(max_length=100)
     description = models.TextField()
     featured_img = models.ImageField(upload_to='course_imgs/', null=True)
