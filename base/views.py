@@ -39,6 +39,13 @@ class CourseList(generics.ListCreateAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     
+    def get_queryset(self):
+        qs=super().get_queryset()
+        if 'result' in self.request.GET:
+            limit=int(self.request.GET['result'])
+            qs=Course.objects.all().order_by('-id')[:limit]
+        return qs
+    
 class TeacherCourseList(generics.ListAPIView):
     serializer_class = CourseSerializer
     
