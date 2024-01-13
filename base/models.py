@@ -1,9 +1,10 @@
 from django.db import models
+from django.core.serializers import serialize
 
 # Teacher model
 class Teacher(models.Model):
     name = models.CharField(max_length=100)
-    email = models.EmailField(max_length=100)
+    email = models.EmailField(max_length=100) 
     password = models.CharField(max_length=100)
     qualification = models.CharField(max_length=200)
     mobile_no = models.CharField(max_length=20)
@@ -38,6 +39,10 @@ class Course(models.Model):
 
     class Meta:
         verbose_name_plural = 'Courses'
+        
+    def related_videos(self):
+        related_videos=Course.objects.filter(techs__icontains=self.techs)
+        return serialize('json', related_videos)
 
     def __str__(self):
         return self.title
