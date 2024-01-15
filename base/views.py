@@ -99,14 +99,14 @@ class StudentDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = StudentSerializer
 
 @csrf_exempt
-def teacher_login(request):
+def student_login(request):
     email = request.POST.get('email')
     password = request.POST.get('password')
     try:
-        teacherData = Teacher.objects.get(email=email, password=password)
-        if teacherData:
-            return JsonResponse({'bool': True, 'teacher_id': teacherData.id})
+        studentData = Student.objects.get(email=email, password=password)
+        if studentData:
+            return JsonResponse({'bool': True, 'student_id': studentData.id})
         else:
             return JsonResponse({'bool': False})
-    except Teacher.DoesNotExist:
+    except Student.DoesNotExist:
         return JsonResponse({'status': 'failed', 'message': 'Invalid Input'})
