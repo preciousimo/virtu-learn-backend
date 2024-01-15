@@ -15,4 +15,7 @@ urlpatterns = [
     
     path('teacher-courses/<int:teacher_id>', TeacherCourseList.as_view()),
     path('teacher-course-detail/<int:pk>', TeacherCourseDetail.as_view()),
+    
+    path('student/', StudentList.as_view()),
+    
 ]

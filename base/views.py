@@ -5,8 +5,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework import permissions
-from .serializers import TeacherSerializer, CategorySerializer, CourseSerializer, ChapterSerializer
-from .models import Teacher, CourseCategory, Course, Chapter
+from .serializers import *
+from .models import *
 
 class TeacherList(generics.ListCreateAPIView):
     queryset = Teacher.objects.all()
@@ -87,3 +87,26 @@ class CourseChapterList(generics.ListAPIView):
         course_id = self.kwargs['course_id']
         course = get_object_or_404(Course, pk=course_id)
         return Chapter.objects.filter(course=course)
+
+
+class StudentList(generics.ListCreateAPIView):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+    # permission_classes = [permissions.IsAuthenticated]
+
+class StudentDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+
+@csrf_exempt
+def teacher_login(request):
+    email = request.POST.get('email')
+    password = request.POST.get('password')
+    try:
+        teacherData = Teacher.objects.get(email=email, password=password)
+        if teacherData:
+            return JsonResponse({'bool': True, 'teacher_id': teacherData.id})
+        else:
+            return JsonResponse({'bool': False})
+    except Teacher.DoesNotExist:
+        return JsonResponse({'status': 'failed', 'message': 'Invalid Input'})

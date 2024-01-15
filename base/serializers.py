@@ -35,3 +35,9 @@ class ChapterSerializer(serializers.ModelSerializer):
     class Meta:
         model = Chapter
         fields = [ 'id', 'course', 'title', 'description', 'video', 'remarks']
+        
+class StudentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = ['id', 'name', 'email', 'username', 'password', 'interested_categories']
+        extra_kwargs = {'password': {'write_only': True}}

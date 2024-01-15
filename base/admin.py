@@ -14,7 +14,7 @@ class ChapterAdmin(admin.ModelAdmin):
     list_display = ['title', 'description', 'video']
 
 class StudentAdmin(admin.ModelAdmin):
-    list_display = ['name', 'email', 'mobile_no']
+    list_display = ['name', 'email', 'username']
 
 
 
