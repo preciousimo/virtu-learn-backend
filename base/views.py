@@ -72,15 +72,15 @@ class TeacherCourseDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
 
-class ChapterList(generics.ListCreateAPIView):
-    queryset = Chapter.objects.all()
-    serializer_class = ChapterSerializer
+# class ChapterList(generics.ListCreateAPIView):
+#     queryset = Chapter.objects.all()
+#     serializer_class = ChapterSerializer
 
 class ChapterDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Chapter.objects.all()
     serializer_class = ChapterSerializer
 
-class CourseChapterList(generics.ListAPIView):
+class CourseChapterList(generics.ListCreateAPIView):
     serializer_class = ChapterSerializer
     
     def get_queryset(self):
@@ -110,3 +110,21 @@ def student_login(request):
             return JsonResponse({'bool': False})
     except Student.DoesNotExist:
         return JsonResponse({'status': 'failed', 'message': 'Invalid Input'})
+    
+class StudentEnrollCourseList(generics.ListCreateAPIView):
+    queryset = StudentCourseEnrollment.objects.all()
+    serializer_class = StudentCourseEnrollSerializer
+
+@csrf_exempt
+def fetch_enroll_status(request, student_id, course_id):
+    try:
+        student=Student.objects.filter(id=student_id).first()
+        course=Course.objects.filter(id=course_id).first()
+        enrollStatus=StudentCourseEnrollment.objects.filter(course=course, student=student).count()
+        if enrollStatus:
+            return JsonResponse({'bool': True})
+        else:
+            return JsonResponse({'bool': False})
+    except Student.DoesNotExist:
+        return JsonResponse({'status': 'failed', 'message': 'Invalid Input'})
+    

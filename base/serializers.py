@@ -41,3 +41,8 @@ class StudentSerializer(serializers.ModelSerializer):
         model = Student
         fields = ['id', 'name', 'email', 'username', 'password', 'interested_categories']
         extra_kwargs = {'password': {'write_only': True}}
+        
+class StudentCourseEnrollSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentCourseEnrollment
+        fields = [ 'id', 'course', 'student', 'enrolled_time']
