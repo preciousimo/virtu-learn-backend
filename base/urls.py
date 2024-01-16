@@ -19,5 +19,6 @@ urlpatterns = [
     path('student-login/', student_login),
     path('student-enroll-course/', StudentEnrollCourseList.as_view()),
     path('fetch-enroll-status/<int:student_id>/<int:course_id>', fetch_enroll_status),
+    path('fetch-enrolled-students/<int:course_id>', EnrolledStudentList.as_view()),
     
 ]

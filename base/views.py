@@ -115,7 +115,6 @@ class StudentEnrollCourseList(generics.ListCreateAPIView):
     queryset = StudentCourseEnrollment.objects.all()
     serializer_class = StudentCourseEnrollSerializer
 
-@csrf_exempt
 def fetch_enroll_status(request, student_id, course_id):
     try:
         student=Student.objects.filter(id=student_id).first()
@@ -127,4 +126,12 @@ def fetch_enroll_status(request, student_id, course_id):
             return JsonResponse({'bool': False})
     except Student.DoesNotExist:
         return JsonResponse({'status': 'failed', 'message': 'Invalid Input'})
+
+class EnrolledStudentList(generics.ListAPIView):
+    queryset = StudentCourseEnrollment.objects.all()
+    serializer_class = StudentCourseEnrollSerializer
     
+    def get_queryset(self):
+        course_id = self.kwargs['course_id']
+        course = get_object_or_404(Course, pk=course_id)
+        return StudentCourseEnrollment.objects.filter(course=course)
