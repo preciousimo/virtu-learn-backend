@@ -135,3 +135,19 @@ class EnrolledStudentList(generics.ListAPIView):
         course_id = self.kwargs['course_id']
         course = get_object_or_404(Course, pk=course_id)
         return StudentCourseEnrollment.objects.filter(course=course)
+    
+class CourseRatingList(generics.ListCreateAPIView):
+    queryset = CourseRating.objects.all()
+    serializer_class = CourseRatingSerializer
+
+def fetch_rating_status(request, student_id, course_id):
+    try:
+        student=Student.objects.filter(id=student_id).first()
+        course=Course.objects.filter(id=course_id).first()
+        ratingStatus=CourseRating.objects.filter(course=course, student=student).count()
+        if ratingStatus:
+            return JsonResponse({'bool': True})
+        else:
+            return JsonResponse({'bool': False})
+    except Student.DoesNotExist:
+        return JsonResponse({'status': 'failed', 'message': 'Invalid Input'})
