@@ -3,6 +3,7 @@ from .views import *
 
 urlpatterns = [
     path('teacher/', TeacherList.as_view()),
+    path('teacher/dashboard/<int:pk>/', TeacherDashboard.as_view()),
     path('teacher/<int:pk>/', TeacherDetail.as_view()),
     path('teacher/change-password/<int:teacher_id>/', teacher_change_password),
     path('teacher-login/', teacher_login),

@@ -16,6 +16,10 @@ class TeacherList(generics.ListCreateAPIView):
 class TeacherDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer
+    
+class TeacherDashboard(generics.RetrieveAPIView):
+    queryset = Teacher.objects.all()
+    serializer_class = TeacherDashboardSerializer
 
 @csrf_exempt
 def teacher_login(request):
@@ -87,7 +91,6 @@ class CourseChapterList(generics.ListCreateAPIView):
         course_id = self.kwargs['course_id']
         course = get_object_or_404(Course, pk=course_id)
         return Chapter.objects.filter(course=course)
-
 
 class StudentList(generics.ListCreateAPIView):
     queryset = Student.objects.all()
