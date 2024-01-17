@@ -2,7 +2,7 @@ from django.contrib import admin
 from base.models import *
 
 class TeacherAdmin(admin.ModelAdmin):
-    list_display = ['name', 'email', 'mobile_no', 'image']
+    list_display = ['name', 'email', 'mobile_no', 'profile_img']
 
 class CourseCategoryAdmin(admin.ModelAdmin):
     list_display = ['title', 'description']

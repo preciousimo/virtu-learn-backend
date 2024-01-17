@@ -4,13 +4,12 @@ from django.core.serializers import serialize
 # Teacher model
 class Teacher(models.Model):
     name = models.CharField(max_length=100, null=True)
-    detail = models.TextField(null=True)
     email = models.EmailField(max_length=100) 
-    password = models.CharField(max_length=100)
+    password = models.CharField(max_length=100, blank=True, null=True)
     qualification = models.CharField(max_length=200)
     mobile_no = models.CharField(max_length=20)
     skills = models.TextField()
-    image = models.ImageField(upload_to='teacher_image', blank=True, null=True)
+    profile_img = models.ImageField(upload_to='teacher_image', blank=True, null=True)
 
     class Meta:
         verbose_name_plural = 'Teachers'
