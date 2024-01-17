@@ -132,9 +132,14 @@ class EnrolledStudentList(generics.ListAPIView):
     serializer_class = StudentCourseEnrollSerializer
     
     def get_queryset(self):
-        course_id = self.kwargs['course_id']
-        course = get_object_or_404(Course, pk=course_id)
-        return StudentCourseEnrollment.objects.filter(course=course)
+        if 'course_id' in self.kwargs:
+            course_id = self.kwargs['course_id']
+            course = get_object_or_404(Course, pk=course_id)
+            return StudentCourseEnrollment.objects.filter(course=course)
+        elif 'teacher_id' in self.kwargs:
+            teacher_id = self.kwargs['teacher_id']
+            teacher = get_object_or_404(Teacher, pk=teacher_id)
+            return StudentCourseEnrollment.objects.filter(course__teacher=teacher).distinct()
     
 class CourseRatingList(generics.ListCreateAPIView):
     queryset = CourseRating.objects.all()
