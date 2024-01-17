@@ -156,3 +156,17 @@ def fetch_rating_status(request, student_id, course_id):
             return JsonResponse({'bool': False})
     except Student.DoesNotExist:
         return JsonResponse({'status': 'failed', 'message': 'Invalid Input'})
+
+@csrf_exempt
+def teacher_change_password(request, teacher_id):
+    password = request.POST.get('password')
+    try:
+        teacherData = Teacher.objects.get(id=teacher_id)
+        if teacherData:
+            teacherData.password = password
+            teacherData.save()
+            return JsonResponse({'bool': True})
+        else:
+            return JsonResponse({'bool': False})
+    except Teacher.DoesNotExist:
+        return JsonResponse({'status': 'failed', 'message': 'Invalid Input'})
