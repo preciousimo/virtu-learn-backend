@@ -143,6 +143,10 @@ class EnrolledStudentList(generics.ListAPIView):
             teacher_id = self.kwargs['teacher_id']
             teacher = get_object_or_404(Teacher, pk=teacher_id)
             return StudentCourseEnrollment.objects.filter(course__teacher=teacher).distinct()
+        elif 'student_id' in self.kwargs:
+            student_id = self.kwargs['student_id']
+            student = get_object_or_404(Student, pk=student_id)
+            return StudentCourseEnrollment.objects.filter(student=student).distinct()
     
 class CourseRatingList(generics.ListCreateAPIView):
     queryset = CourseRating.objects.all()
