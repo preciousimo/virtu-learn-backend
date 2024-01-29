@@ -32,5 +32,6 @@ urlpatterns = [
     path('student-add-favourite-course/', StudentFavouriteCourseList.as_view()),
     path('student-remove-favourite-course/<int:course_id>/<int:student_id>', remove_favourite_course),
     path('fetch-favourite-status/<int:student_id>/<int:course_id>', fetch_favourite_status),
-     path('fetch-favourite-courses/<int:student_id>', StudentFavouriteCourseList.as_view()),
+    path('fetch-favourite-courses/<int:student_id>', StudentFavouriteCourseList.as_view()),
+    path('student-assignment/<int:teacher_id>/<int:student_id>', AssignmentList.as_view()),
 ]

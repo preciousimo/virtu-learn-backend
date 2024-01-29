@@ -230,4 +230,16 @@ def student_change_password(request, student_id):
             return JsonResponse({'bool': False})
     except Teacher.DoesNotExist:
         return JsonResponse({'status': 'failed', 'message': 'Invalid Input'})
+    
+    
+class AssignmentList(generics.ListCreateAPIView):
+    queryset = StudentAssignment.objects.all()
+    serializer_class = StudentAssignmentSerializer
+    
+    def get_queryset(self):
+        student_id = self.kwargs['student_id']
+        teacher_id = self.kwargs['teacher_id']
+        student = get_object_or_404(Student, pk=student_id)
+        teacher = get_object_or_404(Teacher, pk=teacher_id)
+        return Chapter.objects.filter(student=student, teacher=teacher)
 
