@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Q
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics
@@ -58,6 +59,16 @@ class CourseList(generics.ListCreateAPIView):
             teacher=self.request.GET['teacher']
             teacher=Teacher.objects.filter(id=teacher).first()
             qs=Course.objects.filter(techs__icontains=skill_name, teacher=teacher)
+            
+        elif 'studentId' in self.kwargs:
+            student_id = self.kwargs['studentId']
+            student = Student.objects.get(pk=student_id)
+            queries = [Q(techs__iendswith=value) for value in student.interested_categories]
+            query = queries.pop()
+            for item in queries:
+                query |= item
+            qs = Course.objects.filter(query)
+            return qs
         return qs
     
 class CourseDetailView(generics.RetrieveAPIView):
