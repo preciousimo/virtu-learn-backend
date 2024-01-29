@@ -125,6 +125,7 @@ class StudentEnrollCourseList(generics.ListCreateAPIView):
     queryset = StudentCourseEnrollment.objects.all()
     serializer_class = StudentCourseEnrollSerializer
 
+@csrf_exempt
 def fetch_enroll_status(request, student_id, course_id):
     try:
         student=Student.objects.filter(id=student_id).first()
@@ -141,6 +142,13 @@ class StudentFavouriteCourseList(generics.ListCreateAPIView):
     queryset = StudentFavouriteCourse.objects.all()
     serializer_class = StudentFavouriteCourseSerializer
     
+    def get_queryset(self):
+        if 'student_id' in self.kwargs:
+            student_id = self.kwargs['student_id']
+            student = get_object_or_404(Student, pk=student_id)
+            return StudentFavouriteCourse.objects.filter(student=student).distinct()
+
+@csrf_exempt  
 def fetch_favourite_status(request, student_id, course_id):
     student=Student.objects.filter(id=student_id).first()
     course=Course.objects.filter(id=course_id).first()
@@ -149,7 +157,8 @@ def fetch_favourite_status(request, student_id, course_id):
         return JsonResponse({'bool': True})
     else:
         return JsonResponse({'bool': False})
-    
+
+@csrf_exempt   
 def remove_favourite_course(request, course_id, student_id):
     student=Student.objects.filter(id=student_id).first()
     course=Course.objects.filter(id=course_id).first()
@@ -181,6 +190,7 @@ class CourseRatingList(generics.ListCreateAPIView):
     queryset = CourseRating.objects.all()
     serializer_class = CourseRatingSerializer
 
+@csrf_exempt
 def fetch_rating_status(request, student_id, course_id):
     try:
         student=Student.objects.filter(id=student_id).first()
