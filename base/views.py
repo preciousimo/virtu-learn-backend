@@ -87,10 +87,6 @@ class TeacherCourseDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
 
-# class ChapterList(generics.ListCreateAPIView):
-#     queryset = Chapter.objects.all()
-#     serializer_class = ChapterSerializer
-
 class ChapterDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Chapter.objects.all()
     serializer_class = ChapterSerializer
@@ -140,6 +136,28 @@ def fetch_enroll_status(request, student_id, course_id):
             return JsonResponse({'bool': False})
     except Student.DoesNotExist:
         return JsonResponse({'status': 'failed', 'message': 'Invalid Input'})
+    
+class StudentFavouriteCourseList(generics.ListCreateAPIView):
+    queryset = StudentFavouriteCourse.objects.all()
+    serializer_class = StudentFavouriteCourseSerializer
+    
+def fetch_favourite_status(request, student_id, course_id):
+    student=Student.objects.filter(id=student_id).first()
+    course=Course.objects.filter(id=course_id).first()
+    favouriteStatus=StudentFavouriteCourse.objects.filter(course=course, student=student).first()
+    if favouriteStatus and favouriteStatus.status == True:
+        return JsonResponse({'bool': True})
+    else:
+        return JsonResponse({'bool': False})
+    
+def remove_favourite_course(request, course_id, student_id):
+    student=Student.objects.filter(id=student_id).first()
+    course=Course.objects.filter(id=course_id).first()
+    favouriteStatus=StudentFavouriteCourse.objects.filter(course=course, student=student).delete()
+    if favouriteStatus:
+        return JsonResponse({'bool': True})
+    else:
+        return JsonResponse({'bool': False})
 
 class EnrolledStudentList(generics.ListAPIView):
     queryset = StudentCourseEnrollment.objects.all()

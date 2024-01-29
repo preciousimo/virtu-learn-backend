@@ -19,6 +19,9 @@ class StudentAdmin(admin.ModelAdmin):
 class StudentCourseEnrollmentAdmin(admin.ModelAdmin):
     list_display = ['course', 'student']
     
+class StudentFavouriteCourseAdmin(admin.ModelAdmin):
+    list_display = ['course', 'student', 'status']
+    
 class CourseRatingtAdmin(admin.ModelAdmin):
     list_display = ['course', 'student', 'rating']
 
@@ -31,4 +34,5 @@ admin.site.register(Course, CourseAdmin)
 admin.site.register(Chapter, ChapterAdmin)
 admin.site.register(Student, StudentAdmin)
 admin.site.register(StudentCourseEnrollment, StudentCourseEnrollmentAdmin)
+admin.site.register(StudentFavouriteCourse, StudentFavouriteCourseAdmin)
 admin.site.register(CourseRating, CourseRatingtAdmin)
