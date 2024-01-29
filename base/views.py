@@ -241,5 +241,5 @@ class AssignmentList(generics.ListCreateAPIView):
         teacher_id = self.kwargs['teacher_id']
         student = get_object_or_404(Student, pk=student_id)
         teacher = get_object_or_404(Teacher, pk=teacher_id)
-        return Chapter.objects.filter(student=student, teacher=teacher)
+        return StudentAssignment.objects.filter(student=student, teacher=teacher)
 
