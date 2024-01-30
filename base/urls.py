@@ -42,4 +42,5 @@ urlpatterns = [
     path('save-notifications/', NotificationList.as_view()),
     
     path('quiz/', QuizList.as_view()),
+    path('teacher-quiz/<int:teacher_id>', TeacherQuizList.as_view()),
 ]
