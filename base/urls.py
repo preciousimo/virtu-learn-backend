@@ -35,4 +35,5 @@ urlpatterns = [
     path('fetch-favourite-courses/<int:student_id>', StudentFavouriteCourseList.as_view()),
     path('student-assignment/<int:teacher_id>/<int:student_id>', AssignmentList.as_view()),
     path('my-assignments/<int:studentId>', MyAssignmentList.as_view()),
+    path('update-assignment/<int:pk>', UpdateAssignment.as_view()),
 ]

@@ -251,4 +251,7 @@ class MyAssignmentList(generics.ListCreateAPIView):
         student_id = self.kwargs['studentId']
         student = get_object_or_404(Student, pk=student_id)
         return StudentAssignment.objects.filter(student=student)
-
+    
+class UpdateAssignment(generics.RetrieveUpdateDestroyAPIView):
+    queryset = StudentAssignment.objects.all()
+    serializer_class = StudentAssignmentSerializer
