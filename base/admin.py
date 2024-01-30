@@ -27,8 +27,9 @@ class CourseRatingtAdmin(admin.ModelAdmin):
     
 class StudentAssignmentAdmin(admin.ModelAdmin):
     list_display = ['teacher', 'student', 'title']
-
-
+    
+class NotificationAdmin(admin.ModelAdmin):
+    list_display = ['notif_for', 'notif_read_status']
 
 
 admin.site.register(Teacher, TeacherAdmin)
@@ -40,3 +41,4 @@ admin.site.register(StudentCourseEnrollment, StudentCourseEnrollmentAdmin)
 admin.site.register(StudentFavouriteCourse, StudentFavouriteCourseAdmin)
 admin.site.register(CourseRating, CourseRatingtAdmin)
 admin.site.register(StudentAssignment, StudentAssignmentAdmin)
+admin.site.register(Notification, NotificationAdmin)

@@ -38,4 +38,6 @@ urlpatterns = [
     path('student-assignment/<int:teacher_id>/<int:student_id>', AssignmentList.as_view()),
     path('my-assignments/<int:studentId>', MyAssignmentList.as_view()),
     path('update-assignment/<int:pk>', UpdateAssignment.as_view()),
+    path('student/fetch-all-notifications/<int:studentId>', NotificationList.as_view()),
+    path('save-notifications/', NotificationList.as_view()),
 ]

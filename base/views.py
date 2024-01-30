@@ -254,8 +254,18 @@ class MyAssignmentList(generics.ListCreateAPIView):
     def get_queryset(self):
         student_id = self.kwargs['studentId']
         student = get_object_or_404(Student, pk=student_id)
+        Notification.objects.filter(student=student,notif_for='student',notif_subject='assignment').update(notif_read_status=True)
         return StudentAssignment.objects.filter(student=student)
     
 class UpdateAssignment(generics.RetrieveUpdateDestroyAPIView):
     queryset = StudentAssignment.objects.all()
     serializer_class = StudentAssignmentSerializer
+    
+class NotificationList(generics.ListCreateAPIView):
+    queryset = Notification.objects.all()
+    serializer_class = NotificationSerializer
+    
+    def get_queryset(self):
+        student_id = self.kwargs['studentId']
+        student = get_object_or_404(Student, pk=student_id)
+        return Notification.objects.filter(student=student,notif_for='student',notif_subject='assignment').update(notif_read_status=True)
