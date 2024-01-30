@@ -295,3 +295,11 @@ class QuizDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Quiz.objects.all()
     serializer_class = QuizSerializer
     
+class QuizQuestionList(generics.ListCreateAPIView):
+    serializer_class = QuestionSerializer
+    
+    def get_queryset(self):
+        quiz_id = self.kwargs['quiz_id']
+        quiz = get_object_or_404(Quiz, pk=quiz_id)
+        return QuizQuestions.objects.filter(quiz=quiz)
+    

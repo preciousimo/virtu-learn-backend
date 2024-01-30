@@ -45,4 +45,5 @@ urlpatterns = [
     path('teacher-quiz/<int:teacher_id>', TeacherQuizList.as_view()),
     path('teacher-quiz-detail/<int:pk>', TeacherQuizDetail.as_view()),
     path('quiz/<int:pk>', QuizDetailView.as_view()),
+    path('quiz-questions/<int:quiz_id>', QuizQuestionList.as_view()),
 ]
