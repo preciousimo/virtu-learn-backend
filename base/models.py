@@ -96,6 +96,22 @@ class Student(models.Model):
     username = models.CharField(max_length=20)
     interested_categories = models.TextField()
     image = models.ImageField(upload_to='student_image', blank=True, null=True)
+    
+    def enrolled_courses(self):
+        enrolled_courses=StudentCourseEnrollment.objects.filter(student=self).count()
+        return enrolled_courses
+    
+    def favourite_courses(self):
+        favourite_courses=StudentFavouriteCourse.objects.filter(student=self).count()
+        return favourite_courses
+    
+    def complete_assignments(self):
+        complete_assignments=StudentAssignment.objects.filter(student=self, student_status=True).count()
+        return complete_assignments
+    
+    def pending_assignments(self):
+        pending_assignments=StudentAssignment.objects.filter(student=self, student_status=False).count()
+        return pending_assignments
 
     class Meta:
         verbose_name_plural = 'Students'

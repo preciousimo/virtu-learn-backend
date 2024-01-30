@@ -18,6 +18,7 @@ urlpatterns = [
     path('teacher-course-detail/<int:pk>', TeacherCourseDetail.as_view()),
     
     path('student/', StudentList.as_view()),
+    path('student/dashboard/<int:pk>/', StudentDashboard.as_view()),
     path('student-login/', student_login),
     path('student/change-password/<int:student_id>/', student_change_password),
     

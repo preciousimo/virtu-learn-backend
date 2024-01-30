@@ -59,6 +59,11 @@ class StudentSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'email', 'username', 'password', 'interested_categories']
         extra_kwargs = {'password': {'write_only': True}}
         
+class StudentDashboardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = [ 'enrolled_courses', 'favourite_courses', 'complete_assignments', 'pending_assignments']
+        
 class StudentCourseEnrollSerializer(serializers.ModelSerializer):
     class Meta:
         model = StudentCourseEnrollment

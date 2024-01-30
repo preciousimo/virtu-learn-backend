@@ -104,6 +104,10 @@ class StudentList(generics.ListCreateAPIView):
     serializer_class = StudentSerializer
     # permission_classes = [permissions.IsAuthenticated]
 
+class StudentDashboard(generics.RetrieveAPIView):
+    queryset = Student.objects.all()
+    serializer_class = StudentDashboardSerializer
+
 class StudentDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
