@@ -56,7 +56,7 @@ class ChapterSerializer(serializers.ModelSerializer):
 class StudentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Student
-        fields = ['id', 'name', 'email', 'username', 'password', 'interested_categories']
+        fields = ['id', 'name', 'email', 'username', 'password', 'profile_img', 'interested_categories']
         extra_kwargs = {'password': {'write_only': True}}
         
 class StudentDashboardSerializer(serializers.ModelSerializer):

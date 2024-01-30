@@ -92,10 +92,10 @@ class Chapter(models.Model):
 class Student(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(max_length=100)
-    password = models.CharField(max_length=100)
+    password = models.CharField(max_length=100, blank=True, null=True)
     username = models.CharField(max_length=20)
     interested_categories = models.TextField()
-    image = models.ImageField(upload_to='student_image', blank=True, null=True)
+    profile_img = models.ImageField(upload_to='student_image', blank=True, null=True)
     
     def enrolled_courses(self):
         enrolled_courses=StudentCourseEnrollment.objects.filter(student=self).count()
