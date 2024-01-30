@@ -90,6 +90,11 @@ class TeacherCourseDetail(generics.RetrieveUpdateDestroyAPIView):
 class ChapterDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Chapter.objects.all()
     serializer_class = ChapterSerializer
+    
+    def get_serializer_context(self):
+        context=super().get_serializer_context()
+        context['chapter_duration']=self.chapter_duration
+        return context
 
 class CourseChapterList(generics.ListCreateAPIView):
     serializer_class = ChapterSerializer
@@ -281,3 +286,12 @@ class TeacherQuizList(generics.ListAPIView):
         teacher_id = self.kwargs['teacher_id']
         teacher = Teacher.objects.get(pk=teacher_id)
         return Quiz.objects.filter(teacher=teacher)
+    
+class TeacherQuizDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Quiz.objects.all()
+    serializer_class = QuizSerializer
+
+class QuizDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Quiz.objects.all()
+    serializer_class = QuizSerializer
+    
