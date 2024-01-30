@@ -40,4 +40,6 @@ urlpatterns = [
     path('update-assignment/<int:pk>', UpdateAssignment.as_view()),
     path('student/fetch-all-notifications/<int:studentId>', NotificationList.as_view()),
     path('save-notifications/', NotificationList.as_view()),
+    
+    path('quiz/', QuizList.as_view()),
 ]

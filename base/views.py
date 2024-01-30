@@ -269,3 +269,7 @@ class NotificationList(generics.ListCreateAPIView):
         student_id = self.kwargs['studentId']
         student = get_object_or_404(Student, pk=student_id)
         return Notification.objects.filter(student=student,notif_for='student',notif_subject='assignment').update(notif_read_status=True)
+    
+class QuizList(generics.ListCreateAPIView):
+    queryset=Quiz.objects.all()
+    serializer_class=QuizSerializer
