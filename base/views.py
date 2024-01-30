@@ -243,3 +243,12 @@ class AssignmentList(generics.ListCreateAPIView):
         teacher = get_object_or_404(Teacher, pk=teacher_id)
         return StudentAssignment.objects.filter(student=student, teacher=teacher)
 
+class MyAssignmentList(generics.ListCreateAPIView):
+    queryset = StudentAssignment.objects.all()
+    serializer_class = StudentAssignmentSerializer
+    
+    def get_queryset(self):
+        student_id = self.kwargs['studentId']
+        student = get_object_or_404(Student, pk=student_id)
+        return StudentAssignment.objects.filter(student=student)
+
