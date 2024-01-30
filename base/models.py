@@ -173,11 +173,46 @@ class Notification(models.Model):
     notif_for=models.CharField(max_length=200, verbose_name='Notification For')
     notif_created_time=models.DateTimeField(auto_now_add=True)
     notif_read_status=models.BooleanField(default=False, verbose_name='Notification Status')
-    
-    
     class Meta:
         verbose_name_plural = 'Notifications'
     
     def __str__(self):
         return self.notif_for
+    
+
+# Quiz Model
+class Quiz(models.Model):
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True)
+    title=models.CharField(max_length=200)
+    detail=models.CharField(max_length=200)
+    add_time=models.DateTimeField(auto_now_add=True)
+    class Meta:
+        verbose_name_plural = 'Quiz'
+    
+    def __str__(self):
+        return self.title
+    
+class QuizQuestions(models.Model):
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, null=True)
+    question=models.CharField(max_length=200)
+    ans1=models.CharField(max_length=200)
+    ans2=models.CharField(max_length=200)
+    ans3=models.CharField(max_length=200)
+    ans4=models.CharField(max_length=200)
+    right_ans=models.CharField(max_length=200)
+    add_time=models.DateTimeField(auto_now_add=True)
+    class Meta:
+        verbose_name_plural = 'Quiz Questions'
+        
+class CourseQuiz(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True)
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, null=True)
+    add_time=models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = 'Course Quiz'
+    
+    def __str__(self):
+        return self.notif_for
+
     
