@@ -303,3 +303,16 @@ class QuizQuestionList(generics.ListCreateAPIView):
         quiz = get_object_or_404(Quiz, pk=quiz_id)
         return QuizQuestions.objects.filter(quiz=quiz)
     
+class CourseQuizList(generics.ListCreateAPIView):
+    queryset = CourseQuiz.objects.all()
+    serializer_class = CourseQuizSerializer
+    
+def fetch_quiz_assign_status(request,quiz_id,course_id):
+    quiz=Quiz.objects.filter(id=quiz_id).first()
+    course=Course.objects.filter(id=course_id).first()
+    assigStatus=CourseQuiz.objects.filter(course=course,quiz=quiz).count()
+    if assigStatus:
+        return JsonResponse({'bool':True})
+    else:
+        return JsonResponse({'bool':False})
+    
