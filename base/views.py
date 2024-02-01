@@ -307,6 +307,12 @@ class CourseQuizList(generics.ListCreateAPIView):
     queryset = CourseQuiz.objects.all()
     serializer_class = CourseQuizSerializer
     
+    def get_queryset(self):
+        if 'course_id' in self.kwargs:
+            course_id = self.kwargs['course_id']
+            course = get_object_or_404(Course, pk=course_id)
+            return CourseQuiz.objects.filter(course=course)
+    
 def fetch_quiz_assign_status(request,quiz_id,course_id):
     quiz=Quiz.objects.filter(id=quiz_id).first()
     course=Course.objects.filter(id=course_id).first()
