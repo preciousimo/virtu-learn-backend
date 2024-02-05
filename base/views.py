@@ -350,3 +350,15 @@ def fetch_quiz_attempt_status(request,quiz_id,student_id):
     else:
         return JsonResponse({'bool':False})
     
+class StudyMaterialsList(generics.ListCreateAPIView):
+    serializer_class = StudyMaterialSerializer
+    
+    def get_queryset(self):
+        course_id = self.kwargs['course_id']
+        course = get_object_or_404(Course, pk=course_id)
+        return StudyMaterial.objects.filter(course=course)
+    
+class StudyMaterialDetailView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = StudyMaterial.objects.all()
+    serializer_class = StudyMaterialSerializer
+    

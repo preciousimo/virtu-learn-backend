@@ -54,4 +54,8 @@ urlpatterns = [
     path('attempt-quiz/', AttemptQuizList.as_view()),
     path('quiz-questions/<int:quiz_id>/next-question/<int:question_id>', QuizQuestionList.as_view()),
     path('fetch-quiz-attempt-status/<int:quiz_id>/<int:student_id>', fetch_quiz_attempt_status),
+    
+    path('study-materials/<int:course_id>', StudyMaterialsList.as_view()),
+    path('study-material/<int:pk>', StudyMaterialDetailView.as_view()),
+    
 ]
