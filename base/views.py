@@ -60,6 +60,14 @@ class CourseList(generics.ListCreateAPIView):
             teacher=Teacher.objects.filter(id=teacher).first()
             qs=Course.objects.filter(techs__icontains=skill_name, teacher=teacher)
             
+        if 'searchstring' in self.kwargs:
+            search=self.kwargs['searchstring']
+            if search:
+                qs=Course.objects.filter(
+                    Q(title__icontains=search) | 
+                    Q(techs__icontains=search)
+                )
+            
         elif 'studentId' in self.kwargs:
             student_id = self.kwargs['studentId']
             student = Student.objects.get(pk=student_id)
