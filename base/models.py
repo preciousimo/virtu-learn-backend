@@ -197,7 +197,7 @@ class Quiz(models.Model):
     
 class QuizQuestions(models.Model):
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, null=True)
-    question=models.CharField(max_length=200)
+    question=models.CharField(max_length=200, blank=True, null=True)
     ans1=models.CharField(max_length=200)
     ans2=models.CharField(max_length=200)
     ans3=models.CharField(max_length=200)
@@ -218,5 +218,18 @@ class CourseQuiz(models.Model):
     
     def __str__(self):
         return self.course
+
+class AttemptQuiz(models.Model):
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, null=True)
+    question = models.ForeignKey(QuizQuestions, on_delete=models.CASCADE, null=True)
+    right_ans = models.CharField(max_length=200, null=True)
+    add_time=models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = 'Attempted Questions'
+    
+    def __str__(self):
+        return self.question.quiz.title
 
     

@@ -273,7 +273,8 @@ class NotificationList(generics.ListCreateAPIView):
     def get_queryset(self):
         student_id = self.kwargs['studentId']
         student = get_object_or_404(Student, pk=student_id)
-        return Notification.objects.filter(student=student,notif_for='student',notif_subject='assignment').update(notif_read_status=True)
+        Notification.objects.filter(student=student, notif_for='student', notif_subject='assignment').update(notif_read_status=True)
+        return Notification.objects.filter(student=student, notif_for='student', notif_subject='assignment')
     
 class QuizList(generics.ListCreateAPIView):
     queryset=Quiz.objects.all()
@@ -301,7 +302,13 @@ class QuizQuestionList(generics.ListCreateAPIView):
     def get_queryset(self):
         quiz_id = self.kwargs['quiz_id']
         quiz = get_object_or_404(Quiz, pk=quiz_id)
-        return QuizQuestions.objects.filter(quiz=quiz)
+        if 'limit' in self.kwargs:
+            return QuizQuestions.objects.filter(quiz=quiz).order_by('id')[:1]
+        elif 'question_id' in self.kwargs:
+            current_question=self.kwargs['question_id']
+            return QuizQuestions.objects.filter(quiz=quiz,id__gt=current_question).order_by('id')[:1]
+        else:
+            return QuizQuestions.objects.filter(quiz=quiz)
     
 class CourseQuizList(generics.ListCreateAPIView):
     queryset = CourseQuiz.objects.all()
@@ -318,6 +325,19 @@ def fetch_quiz_assign_status(request,quiz_id,course_id):
     course=Course.objects.filter(id=course_id).first()
     assigStatus=CourseQuiz.objects.filter(course=course,quiz=quiz).count()
     if assigStatus:
+        return JsonResponse({'bool':True})
+    else:
+        return JsonResponse({'bool':False})
+    
+class AttemptQuizList(generics.ListCreateAPIView):
+    queryset = AttemptQuiz.objects.all()
+    serializer_class = AttemptQuizSerializer
+    
+def fetch_quiz_attempt_status(request,quiz_id,student_id):
+    quiz=Quiz.objects.filter(id=quiz_id).first()
+    student=Student.objects.filter(id=student_id).first()
+    attemptStatus=AttemptQuiz.objects.filter(student=student,question__quiz=quiz).count()
+    if attemptStatus > 0:
         return JsonResponse({'bool':True})
     else:
         return JsonResponse({'bool':False})
