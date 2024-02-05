@@ -57,5 +57,6 @@ urlpatterns = [
     
     path('study-materials/<int:course_id>', StudyMaterialsList.as_view()),
     path('study-material/<int:pk>', StudyMaterialDetailView.as_view()),
+    path('student/study-materials/<int:course_id>', StudyMaterialsList.as_view()),
     
 ]
