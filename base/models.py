@@ -218,7 +218,7 @@ class CourseQuiz(models.Model):
         verbose_name_plural = 'Course Quiz'
     
     def __str__(self):
-        return self.course
+        return self.course.title
 
 class AttemptQuiz(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, null=True)

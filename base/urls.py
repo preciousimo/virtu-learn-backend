@@ -58,5 +58,6 @@ urlpatterns = [
     path('study-materials/<int:course_id>', StudyMaterialsList.as_view()),
     path('study-material/<int:pk>', StudyMaterialDetailView.as_view()),
     path('student/study-materials/<int:course_id>', StudyMaterialsList.as_view()),
-    
+    path('attempted-quiz/<int:quiz_id>', AttemptQuizList.as_view()),
+    path('fetch-quiz-result/<int:quiz_id>/<int:student_id>', fetch_quiz_attempt_statuss),
 ]
