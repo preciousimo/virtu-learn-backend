@@ -448,3 +448,8 @@ def update_view(request,course_id):
     queryset.course_views+=1
     queryset.save()
     return JsonResponse({'views':queryset.course_views})
+
+
+class FaqList(generics.ListAPIView):
+    queryset = FAQ.objects.all()
+    serializer_class = FaqSerializer

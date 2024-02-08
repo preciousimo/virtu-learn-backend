@@ -210,8 +210,13 @@ class QuizQuestions(models.Model):
     ans4=models.CharField(max_length=200)
     right_ans=models.CharField(max_length=200)
     add_time=models.DateTimeField(auto_now_add=True)
+    
     class Meta:
         verbose_name_plural = 'Quiz Questions'
+        
+    def __str__(self):
+        return self.question
+    
         
 class CourseQuiz(models.Model):
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, null=True)
@@ -250,5 +255,16 @@ class StudyMaterial(models.Model):
 
     def __str__(self):
         return self.title
+    
+    
+class FAQ(models.Model):
+    question = models.CharField(max_length=300)
+    answer = models.TextField()
+    
+    class Meta:
+        verbose_name_plural = 'FAQ'
+
+    def __str__(self):
+        return self.question
 
     
