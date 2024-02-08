@@ -4,11 +4,17 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import generics
-from rest_framework import permissions
+from rest_framework import generics, permissions
+from rest_framework.pagination import PageNumberPagination
 from .serializers import *
 from .models import *
 
+class StandardResultsSetPagination(PageNumberPagination):
+    page_size = 4
+    page_size_query_param = 'page_size'
+    max_page_size = 4
+    
+    
 class TeacherList(generics.ListCreateAPIView):
     queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer
@@ -52,6 +58,7 @@ class CategoryList(generics.ListCreateAPIView):
 class CourseList(generics.ListCreateAPIView):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
+    pagination_class = StandardResultsSetPagination
     
     def get_queryset(self):
         qs=super().get_queryset()
