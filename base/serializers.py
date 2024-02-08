@@ -33,7 +33,7 @@ class TeacherDashboardSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = CourseCategory
-        fields = [ 'id', 'title', 'description']
+        fields = [ 'id', 'title', 'description', 'total_courses']
         
     def __init__(self, *args, **kwargs):
         super(CategorySerializer, self).__init__(*args, **kwargs)
