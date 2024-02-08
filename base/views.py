@@ -401,14 +401,22 @@ def fetch_quiz_attempt_status(request,quiz_id,student_id):
         return JsonResponse({'bool':False}) 
     
     
-def fetch_quiz_attempt_statuss(request,quiz_id,student_id):
+def fetch_quiz_result(request,quiz_id,student_id):
     quiz = get_object_or_404(Quiz, id=quiz_id)
     student = get_object_or_404(Student, id=student_id)
     total_questions = QuizQuestions.objects.filter(quiz=quiz).count()
     total_attempted_questions = AttemptQuiz.objects.filter(quiz=quiz, student=student).count()
+    attempted_questions = AttemptQuiz.objects.filter(quiz=quiz, student=student)
+    
+    total_correct_questions=0
+    for attempt in attempted_questions:
+        if attempt.right_ans == attempt.question.right_ans:
+            total_correct_questions+=1
+    
     return JsonResponse({
         'total_questions': total_questions,
-        'total_attempted_questions': total_attempted_questions
+        'total_attempted_questions': total_attempted_questions,
+        'total_correct_questions': total_correct_questions
     })
     
     
