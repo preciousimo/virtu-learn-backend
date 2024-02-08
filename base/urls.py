@@ -22,6 +22,8 @@ urlpatterns = [
     path('teacher-courses/<int:teacher_id>', TeacherCourseList.as_view()),
     path('teacher-course-detail/<int:pk>', TeacherCourseDetail.as_view()),
     
+    path('student-testimonial/', CourseRatingList.as_view()),
+    
     path('student/', StudentList.as_view()),
     path('student/dashboard/<int:pk>/', StudentDashboard.as_view()),
     path('student/<int:pk>/', StudentDetail.as_view()),
