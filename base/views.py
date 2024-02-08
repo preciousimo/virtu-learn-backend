@@ -61,39 +61,40 @@ class CourseList(generics.ListCreateAPIView):
     pagination_class = StandardResultsSetPagination
     
     def get_queryset(self):
-        qs=super().get_queryset()
+        qs = super().get_queryset()
+        
         if 'result' in self.request.GET:
-            limit=int(self.request.GET['result'])
-            qs=Course.objects.all().order_by('-id')[:limit]
+            limit = int(self.request.GET['result'])
+            qs = Course.objects.all().order_by('-id')[:limit]
             
-        if 'category' in self.request.GET:
-            category=self.request.GET['category']
-            category=CourseCategory.objects.filter(id=category).first()
-            qs=Course.objects.filter(techs__icontains=category)
+        elif 'category' in self.request.GET:
+            category_id = self.request.GET['category']
+            category = CourseCategory.objects.filter(id=category_id).first()
+            qs = Course.objects.filter(techs__icontains=category)
             
-        if 'skill_name' in self.request.GET and 'teacher' in self.request.GET:
-            skill_name=self.request.GET['skill_name']
-            teacher=self.request.GET['teacher']
-            teacher=Teacher.objects.filter(id=teacher).first()
-            qs=Course.objects.filter(techs__icontains=skill_name, teacher=teacher)
+        elif 'skill_name' in self.request.GET and 'teacher' in self.request.GET:
+            skill_name = self.request.GET['skill_name']
+            teacher_id = self.request.GET['teacher']
+            teacher = Teacher.objects.filter(id=teacher_id).first()
+            qs = Course.objects.filter(techs__icontains=skill_name, teacher=teacher)
             
-        if 'searchstring' in self.kwargs:
-            search=self.kwargs['searchstring']
+        elif 'searchstring' in self.request.GET:
+            search = self.request.GET['searchstring']
             if search:
-                qs=Course.objects.filter(
+                qs = Course.objects.filter(
                     Q(title__icontains=search) | 
                     Q(techs__icontains=search)
                 )
             
-        elif 'studentId' in self.kwargs:
-            student_id = self.kwargs['studentId']
+        elif 'studentId' in self.request.GET:
+            student_id = self.request.GET['studentId']
             student = Student.objects.get(pk=student_id)
             queries = [Q(techs__iendswith=value) for value in student.interested_categories]
             query = queries.pop()
             for item in queries:
                 query |= item
             qs = Course.objects.filter(query)
-            return qs
+        
         return qs
     
     
