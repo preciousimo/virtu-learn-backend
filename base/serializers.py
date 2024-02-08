@@ -6,7 +6,7 @@ from django.contrib.auth.hashers import make_password, check_password
 class TeacherSerializer(serializers.ModelSerializer):
     class Meta:
         model = Teacher
-        fields = ['id', 'name', 'email', 'qualification', 'mobile_no', 'skills', 'profile_img',  'password', 'teacher_courses', 'skill_list']
+        fields = ['id', 'name', 'email', 'qualification', 'mobile_no', 'skills', 'profile_img',  'password', 'teacher_courses', 'skill_list', 'total_teacher_courses']
         extra_kwargs = {'password': {'write_only': True}}
     
     def __init__(self, *args, **kwargs):

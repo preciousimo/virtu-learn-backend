@@ -12,12 +12,17 @@ from .models import *
 class TeacherList(generics.ListCreateAPIView):
     queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer
-    # permission_classes = [permissions.IsAuthenticated]
+    
+    def get_queryset(self):
+        if 'popular' in self.request.GET:
+            sql="SELECT *, COUNT(c.id) as total_course FROM base_teacher as t INNER JOIN base_course as c ON c.teacher_id=t.id GROUP BY t.id ORDER BY total_course desc"
+            return Teacher.objects.raw(sql)
 
 
 class TeacherDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer
+    # permission_classes = [permissions.IsAuthenticated]
     
     
 class TeacherDashboard(generics.RetrieveAPIView):
