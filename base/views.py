@@ -223,6 +223,14 @@ class EnrolledStudentList(generics.ListAPIView):
 class CourseRatingList(generics.ListCreateAPIView):
     queryset = CourseRating.objects.all()
     serializer_class = CourseRatingSerializer
+    
+    def get_queryset(self):
+        if 'popular' in self.request.GET:
+            sql="SELECT *, AVG(cr.rating) as avg_rating FROM base_courserating as cr INNER JOIN base_course as c ON cr.course_id=c.id GROUP BY c.id ORDER BY avg_rating desc LIMIT 4"
+            return CourseRating.objects.raw(sql)
+        if 'all' in self.request.GET:
+            sql="SELECT *, AVG(cr.rating) as avg_rating FROM base_courserating as cr INNER JOIN base_course as c ON cr.course_id=c.id GROUP BY c.id ORDER BY avg_rating desc"
+            return CourseRating.objects.raw(sql)
 
 
 def fetch_rating_status(request, student_id, course_id):
