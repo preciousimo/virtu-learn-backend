@@ -1,5 +1,6 @@
 from django.db import models
 from django.core.serializers import serialize
+from phonenumber_field.modelfields import PhoneNumberField
 
 # Teacher model
 class Teacher(models.Model):
@@ -266,5 +267,19 @@ class FAQ(models.Model):
 
     def __str__(self):
         return self.question
+
+
+class Contact(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    phone = PhoneNumberField()
+    message = models.TextField()
+    add_time = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        verbose_name_plural = 'Contact Messages'
+
+    def __str__(self):
+        return self.email
 
     

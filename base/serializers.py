@@ -230,4 +230,10 @@ class FaqSerializer(serializers.ModelSerializer):
     class Meta:
         model = FAQ
         fields = [ 'question', 'answer']
-            
+ 
+
+class ContactSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Contact
+        fields = [ 'id', 'name', 'email', 'phone', 'message']
+                       

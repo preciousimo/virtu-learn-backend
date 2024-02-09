@@ -453,3 +453,8 @@ def update_view(request,course_id):
 class FaqList(generics.ListAPIView):
     queryset = FAQ.objects.all()
     serializer_class = FaqSerializer
+    
+
+class ContactList(generics.ListCreateAPIView):
+    queryset = Contact.objects.all()
+    serializer_class = ContactSerializer

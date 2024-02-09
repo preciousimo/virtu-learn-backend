@@ -68,4 +68,5 @@ urlpatterns = [
     path('fetch-quiz-result/<int:quiz_id>/<int:student_id>', fetch_quiz_result),
     
     path('faq/', FaqList.as_view()),
+    path('contact/', ContactList.as_view()),
 ]
