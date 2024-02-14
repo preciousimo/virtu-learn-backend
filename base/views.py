@@ -43,11 +43,26 @@ def teacher_login(request):
     try:
         teacherData = Teacher.objects.get(email=email, password=password)
         if teacherData:
-            return JsonResponse({'bool': True, 'teacher_id': teacherData.id})
+            if not teacherData.verify_status:
+                return JsonResponse({'bool': False, 'msg':'Account is not verified!!'})
+            else:
+                return JsonResponse({'bool': True, 'teacher_id': teacherData.id})
         else:
-            return JsonResponse({'bool': False})
+            return JsonResponse({'bool': False, 'msg':'Invalid Email or Password!'})
     except Teacher.DoesNotExist:
         return JsonResponse({'status': 'failed', 'message': 'Invalid Input'})
+    
+
+@csrf_exempt
+def verify_teacher_via_otp(request, teacher_id):
+    otp_digit = request.POST.get('otp_digit')
+    teacher = Teacher.objects.filter(id=teacher_id, otp_digit=otp_digit).first()
+    if teacher:
+        teacher.verify_status = True
+        teacher.save()
+        return JsonResponse({'bool': True, 'teacher_id': teacher.id})
+    else:
+        return JsonResponse({'bool': False})
 
     
 class CategoryList(generics.ListCreateAPIView):

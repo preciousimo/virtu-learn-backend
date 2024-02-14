@@ -1,6 +1,8 @@
+import random
 from django.db import models
 from django.core.serializers import serialize
 from phonenumber_field.modelfields import PhoneNumberField
+from django.conf import settings
 
 # Teacher model
 class Teacher(models.Model):
@@ -8,9 +10,11 @@ class Teacher(models.Model):
     email = models.EmailField(max_length=100) 
     password = models.CharField(max_length=100, blank=True, null=True)
     qualification = models.CharField(max_length=200)
-    mobile_no = models.CharField(max_length=20)
+    mobile_no = PhoneNumberField()
     skills = models.TextField()
     profile_img = models.ImageField(upload_to='teacher_image', blank=True, null=True)
+    verify_status = models.BooleanField(default=False)
+    otp_digit = models.CharField(max_length=6, null=True)
 
     class Meta:
         verbose_name_plural = 'Teachers'
@@ -103,6 +107,8 @@ class Student(models.Model):
     username = models.CharField(max_length=20)
     interested_categories = models.TextField()
     profile_img = models.ImageField(upload_to='student_image', blank=True, null=True)
+    verify_status = models.BooleanField(default=False)
+    otp_digit = models.CharField(max_length=6, null=True)
     
     def enrolled_courses(self):
         enrolled_courses=StudentCourseEnrollment.objects.filter(student=self).count()
