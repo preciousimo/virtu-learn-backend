@@ -14,7 +14,7 @@ class Teacher(models.Model):
     skills = models.TextField()
     profile_img = models.ImageField(upload_to='teacher_image', blank=True, null=True)
     verify_status = models.BooleanField(default=False)
-    otp_digit = models.CharField(max_length=6, null=True)
+    otp_digit = models.CharField(max_length=6, blank=True, null=True)
 
     class Meta:
         verbose_name_plural = 'Teachers'

@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
+from django.core.mail import send_mail, EmailMessage
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import generics, permissions
@@ -473,3 +474,32 @@ class FaqList(generics.ListAPIView):
 class ContactList(generics.ListCreateAPIView):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
+    
+    
+@csrf_exempt
+def teacher_forgot_password(request):
+    email = request.POST.get('email')
+    verify = Teacher.objects.filter(email=email).first()
+    if verify:
+        link=f'http://localhost:3000/teacher-change-password/{verify.id}'
+        subject = 'Forgot Password'
+        message = f'Hello {verify.name},\n\nYour One Time Password (OTP) for verification is: {link}\n\nThank you,\nThe Team'
+        from_email = settings.EMAIL_HOST_USER
+        to_email = [verify.email]
+        send_email = EmailMessage( subject, message, from_email, to_email)    
+        send_email.send(fail_silently=False)
+        return JsonResponse({'bool': True, 'msg': 'Please check your email!'})
+    else:
+        return JsonResponse({'bool': False, 'msg': 'Invalid Email!!'})
+    
+
+@csrf_exempt
+def teacher_change_password(request,teacher_id):
+    password=request.POST.get('password')
+    verify = Teacher.objects.filter(id=teacher_id).first()
+    if verify:
+        verify.password = password
+        verify.save()
+        return JsonResponse({'bool': True, 'msg': 'Password has been changed'})
+    else:
+        return JsonResponse({'bool': False, 'msg': 'Oops... Some Error Occured!!'})

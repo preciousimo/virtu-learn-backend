@@ -9,6 +9,8 @@ urlpatterns = [
     path('teacher-login/', teacher_login),
     path('popular-teachers/', TeacherList.as_view()),
     path('verify-teacher/<int:teacher_id>/', verify_teacher_via_otp),
+    path('teacher-forgot-password/', teacher_forgot_password),
+    path('teacher-change-password/<int:teacher_id>/', teacher_change_password),
     
     path('category/', CategoryList.as_view()),
     path('course/', CourseList.as_view()),
