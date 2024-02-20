@@ -74,4 +74,7 @@ urlpatterns = [
     # FAQ and contact URLs
     path('faq/', FaqList.as_view()),
     path('contact/', ContactList.as_view()),
+    
+    path('send-message/<int:teacher_id>/<int:student_id>', save_teacher_student_msg),
+    path('get-messages/<int:teacher_id>/<int:student_id>', MessageList.as_view()),
 ]

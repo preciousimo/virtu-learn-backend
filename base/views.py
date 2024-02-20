@@ -517,3 +517,33 @@ def teacher_change_password(request, teacher_id):
         return JsonResponse({'bool': True, 'msg': 'Password has been changed'})
     else:
         return JsonResponse({'bool': False, 'msg': 'Oops... Some Error Occured!!'})
+
+
+@csrf_exempt
+def save_teacher_student_msg(request, teacher_id, student_id):
+    teacher = Teacher.objects.get(id=teacher_id)
+    student = Student.objects.get(id=student_id)
+    msg_text = request.POST.get('msg_text')
+    msg_from = request.POST.get('msg_from')
+    msgRes = TeacherStudentChat.objects.create(
+        teacher=teacher,
+        student=student,
+        msg_text=msg_text,
+        msg_from=msg_from,
+    )
+    if msgRes:
+        return JsonResponse({'bool': True, 'msg': 'Message has been sent!'})
+    else:
+        return JsonResponse({'bool': False, 'msg': 'Oops... Some Error Occured!!'})
+    
+
+class MessageList(generics.ListAPIView):
+    queryset = TeacherStudentChat.objects.all()
+    serializer_class = TeacherStudentChatSerializer
+    
+    def get_queryset(self):
+        teacher_id = self.kwargs['teacher_id']
+        student_id = self.kwargs['student_id']
+        teacher = Teacher.objects.get(id=teacher_id)
+        student = Student.objects.get(id=student_id)
+        return TeacherStudentChat.objects.filter(teacher=teacher, student=student).exclude(msg_text='')
