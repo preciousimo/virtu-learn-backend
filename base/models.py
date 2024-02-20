@@ -287,5 +287,19 @@ class Contact(models.Model):
 
     def __str__(self):
         return self.email
+    
+
+class TeacherStudentChat(models.Model):
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    msg_text = models.TextField()
+    msg_from = models.CharField(max_length=100)
+    msg_time = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        verbose_name_plural = 'Teacher Student Messages'
+
+    def __str__(self):
+        return self.msg_from
 
     
