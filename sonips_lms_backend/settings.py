@@ -2,7 +2,6 @@ from datetime import timedelta
 from pathlib import Path
 import os
 from dotenv import load_dotenv
-from django.contrib.auth.models import User
 
 # Load environment variables from .env file
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -132,21 +131,6 @@ if os.environ.get('DJANGO_ENV') == 'production':
         'PORT': str(os.getenv('DB_PORT')),
         'OPTIONS': {'sslmode': 'require'},
     }
-
-
-# Read environment variables
-CREATE_SUPERUSER = os.getenv('CREATE_SUPERUSER', 'False').lower() == 'true'
-DJANGO_SUPERUSER_EMAIL = os.getenv('DJANGO_SUPERUSER_EMAIL')
-DJANGO_SUPERUSER_PASSWORD = os.getenv('DJANGO_SUPERUSER_PASSWORD')
-DJANGO_SUPERUSER_USERNAME = os.getenv('DJANGO_SUPERUSER_USERNAME')
-
-# Create superuser if enabled and necessary details are provided
-if CREATE_SUPERUSER and DJANGO_SUPERUSER_EMAIL and DJANGO_SUPERUSER_PASSWORD and DJANGO_SUPERUSER_USERNAME:
-    if not User.objects.filter(username=DJANGO_SUPERUSER_USERNAME).exists():
-        User.objects.create_superuser(DJANGO_SUPERUSER_USERNAME, DJANGO_SUPERUSER_EMAIL, DJANGO_SUPERUSER_PASSWORD)
-        print('Superuser created successfully.')
-    else:
-        print('Superuser already exists.')
 
 
 # Password validation
