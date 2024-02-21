@@ -44,7 +44,7 @@ def teacher_login(request):
     email = request.POST.get('email')
     password = request.POST.get('password')
     try:
-        teacherData = Teacher.objects.get(email=email, password=password)
+        teacherData = get_object_or_404(Teacher, email=email, password=password)
         if teacherData:
             if not teacherData.verify_status:
                 return JsonResponse({'bool': False, 'msg': 'Account is not verified!!'})
@@ -108,7 +108,7 @@ class CourseList(generics.ListCreateAPIView):
 
         elif 'studentId' in self.kwargs:
             student_id = self.kwargs['studentId']
-            student = Student.objects.get(pk=student_id)
+            student = get_object_or_404(Student, pk=student_id)
             queries = [Q(techs__iendswith=value) for value in student.interested_categories]
             query = queries.pop()
             for item in queries:
@@ -129,7 +129,7 @@ class TeacherCourseList(generics.ListAPIView):
 
     def get_queryset(self):
         teacher_id = self.kwargs['teacher_id']
-        teacher = Teacher.objects.get(pk=teacher_id)
+        teacher = get_object_or_404(Teacher, pk=teacher_id)
         return Course.objects.filter(teacher=teacher)
 
 
@@ -178,8 +178,8 @@ class StudentDetail(generics.RetrieveUpdateDestroyAPIView):
 def student_login(request):
     email = request.POST.get('email')
     password = request.POST.get('password')
-    try:
-        studentData = Student.objects.get(email=email, password=password)
+    try: 
+        studentData = get_object_or_404(Student, email=email, password=password)
         if studentData:
             return JsonResponse({'bool': True, 'student_id': studentData.id})
         else:
@@ -300,7 +300,7 @@ def fetch_rating_status(request, student_id, course_id):
 def teacher_change_password(request, teacher_id):
     password = request.POST.get('password')
     try:
-        teacherData = Teacher.objects.get(id=teacher_id)
+        teacherData = get_object_or_404(Teacher, id=teacher_id)
         if teacherData:
             teacherData.password = password
             teacherData.save()
@@ -315,7 +315,7 @@ def teacher_change_password(request, teacher_id):
 def student_change_password(request, student_id):
     password = request.POST.get('password')
     try:
-        studentData = Student.objects.get(id=student_id)
+        studentData = get_object_or_404(Student, id=student_id)
         if studentData:
             studentData.password = password
             studentData.save()
@@ -379,7 +379,7 @@ class TeacherQuizList(generics.ListAPIView):
 
     def get_queryset(self):
         teacher_id = self.kwargs['teacher_id']
-        teacher = Teacher.objects.get(pk=teacher_id)
+        teacher = get_object_or_404(Teacher, pk=teacher_id)
         return Quiz.objects.filter(teacher=teacher)
 
 
@@ -398,7 +398,7 @@ class QuizQuestionList(generics.ListCreateAPIView):
 
     def get_queryset(self):
         quiz_id = self.kwargs['quiz_id']
-        quiz = Quiz.objects.get(pk=quiz_id)
+        quiz = get_object_or_404(Quiz, pk=quiz_id)
         if 'limit' in self.kwargs:
             return QuizQuestions.objects.filter(quiz=quiz).order_by('id')[:1]
         elif 'question_id' in self.kwargs:
@@ -436,7 +436,7 @@ class AttemptQuizList(generics.ListCreateAPIView):
     def get_queryset(self):
         if 'quiz_id' in self.kwargs:
             quiz_id = self.kwargs['quiz_id']
-            quiz = Quiz.objects.get(pk=quiz_id)
+            quiz = get_object_or_404(Quiz, pk=quiz_id)
             return AttemptQuiz.objects.raw(f'SELECT * FROM base_attemptquiz WHERE quiz_id={int(quiz_id)} GROUP by student_id')
 
 
@@ -533,8 +533,8 @@ def teacher_change_password(request, teacher_id):
 
 @csrf_exempt
 def save_teacher_student_msg(request, teacher_id, student_id):
-    teacher = Teacher.objects.get(id=teacher_id)
-    student = Student.objects.get(id=student_id)
+    teacher = get_object_or_404(Teacher, id=teacher_id)
+    student = get_object_or_404(Student, id=student_id)
     msg_text = request.POST.get('msg_text')
     msg_from = request.POST.get('msg_from')
     msgRes = TeacherStudentChat.objects.create(
@@ -557,14 +557,14 @@ class MessageList(generics.ListAPIView):
     def get_queryset(self):
         teacher_id = self.kwargs['teacher_id']
         student_id = self.kwargs['student_id']
-        teacher = Teacher.objects.get(id=teacher_id)
-        student = Student.objects.get(id=student_id)
+        teacher = get_object_or_404(Teacher, id=teacher_id)
+        student = get_object_or_404(Student, id=student_id)
         return TeacherStudentChat.objects.filter(teacher=teacher, student=student).exclude(msg_text='')
     
 
 @csrf_exempt
 def save_teacher_student_group_msg(request, teacher_id):
-    teacher = Teacher.objects.get(id=teacher_id)
+    teacher = get_object_or_404(Teacher, id=teacher_id)
     msg_text = request.POST.get('msg_text')
     msg_from = request.POST.get('msg_from')
     
