@@ -12,7 +12,7 @@ load_dotenv(os.path.join(BASE_DIR, ".env"))
 SECRET_KEY = str(os.getenv('SECRET_KEY'))
 DEBUG = False if os.getenv('DJANGO_ENV') == 'production' else True
 
-ALLOWED_HOSTS = ["virtulearn.vercel.app", "127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["virtulearn.vercel.app", ".vercel.app", "127.0.0.1", "localhost"]
 
 
 # Application definition
