@@ -532,7 +532,8 @@ def save_teacher_student_msg(request, teacher_id, student_id):
         msg_from=msg_from,
     )
     if msgRes:
-        return JsonResponse({'bool': True, 'msg': 'Message has been sent!'})
+        msgs=TeacherStudentChat.objects.filter(teacher=teacher, student=student).count()
+        return JsonResponse({'bool': True, 'msg': 'Message has been sent!', 'total_msg':msgs})
     else:
         return JsonResponse({'bool': False, 'msg': 'Oops... Some Error Occured!!'})
     
@@ -547,3 +548,23 @@ class MessageList(generics.ListAPIView):
         teacher = Teacher.objects.get(id=teacher_id)
         student = Student.objects.get(id=student_id)
         return TeacherStudentChat.objects.filter(teacher=teacher, student=student).exclude(msg_text='')
+    
+
+@csrf_exempt
+def save_teacher_student_group_msg(request, teacher_id):
+    teacher = Teacher.objects.get(id=teacher_id)
+    msg_text = request.POST.get('msg_text')
+    msg_from = request.POST.get('msg_from')
+    
+    enrolledList = StudentCourseEnrollment.objects.filter(course__teacher=teacher).distinct()
+    for enrolled in enrolledList:
+        msgRes = TeacherStudentChat.objects.create(
+            teacher=teacher,
+            student=enrolled.student,
+            msg_text=msg_text,
+            msg_from=msg_from,
+        )
+    if msgRes:
+        return JsonResponse({'bool': True, 'msg': 'Message has been sent!'})
+    else:
+        return JsonResponse({'bool': False, 'msg': 'Oops... Some Error Occured!!'})
