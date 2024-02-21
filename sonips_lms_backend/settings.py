@@ -12,12 +12,16 @@ load_dotenv(os.path.join(BASE_DIR, ".env"))
 SECRET_KEY = str(os.getenv('SECRET_KEY'))
 DEBUG = False if os.getenv('DJANGO_ENV') == 'production' else True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["virtulearn.vercel.app"]
 
 
 # Application definition
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOWED_ORIGINS = [
+    "https://virtulearn.vercel.app",
+]
 CORS_ALLOW_CREDENTIALS = True
+
 
 
 INSTALLED_APPS = [
@@ -49,6 +53,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
+    'sonips_lms_backend.restrict_host_middleware.RestrictHostMiddleware',
 ]
 
 ROOT_URLCONF = 'sonips_lms_backend.urls'
@@ -162,6 +168,80 @@ AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
 
 AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
+
+
+# CSRF_COOKIE_SECURE and SESSION_COOKIE_SECURE
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+
+# Server Security Headers
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_HSTS_SECONDS = 3600
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_REDIRECT_EXEMPT = []
+
+# Content Security Policy (CSP)
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'")
+CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
+CSP_IMG_SRC = ("'self'", "data:")
+CSP_CONNECT_SRC = ("'self'",)
+CSP_FRAME_SRC = ("'self'",)
+CSP_OBJECT_SRC = ("'none'",)
+CSP_MEDIA_SRC = ("'self'",)
+CSP_SANDBOX = ("allow-forms", "allow-scripts")
+
+
+# Rate Limiting
+REST_FRAMEWORK['DEFAULT_THROTTLE_CLASSES'] = (
+    'rest_framework.throttling.AnonRateThrottle',
+    'rest_framework.throttling.UserRateThrottle',
+)
+REST_FRAMEWORK['DEFAULT_THROTTLE_RATES'] = {
+    'anon': '100/day',
+    'user': '1000/day',
+}
+
+# Database Connection Pooling
+DATABASES['default']['CONN_MAX_AGE'] = 600  # 10 minutes
+
+# Automated Testing
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+NOSE_ARGS = [
+    '--nocapture',
+    '--nologcapture',
+    '--with-id',
+    '--with-yanc',
+    '--failed',
+    '--stop',
+]
+
+# Logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+    },
+}
+
+
+# ADMINS and MANAGERS
+ADMINS = [('Precious Imoniakemu', 'preciousimoniakemu@gmail.com')]
+MANAGERS = ADMINS
 
 
 # Default primary key field type
