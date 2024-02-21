@@ -19,7 +19,7 @@ class BaseSerializer(serializers.ModelSerializer):
 class TeacherSerializer(BaseSerializer):
     class Meta:
         model = Teacher
-        fields = ['id', 'name', 'email', 'qualification', 'mobile_no', 'skills', 'profile_img', 'otp_digit', 'password', 'teacher_courses', 'skill_list', 'total_teacher_courses']
+        fields = ['id', 'name', 'email', 'qualification', 'mobile_no', 'skills', 'profile_img', 'otp_digit', 'password', 'teacher_courses', 'skill_list', 'total_teacher_courses', 'linkedin_url', 'twitter_url', 'facebook_url', 'instagram_url', 'website_url']
         extra_kwargs = {'password': {'write_only': True}}
         
     def create(self, validated_data):

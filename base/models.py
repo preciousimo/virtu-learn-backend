@@ -15,6 +15,12 @@ class Teacher(models.Model):
     profile_img = models.ImageField(upload_to='teacher_image', blank=True, null=True)
     verify_status = models.BooleanField(default=False)
     otp_digit = models.CharField(max_length=6, blank=True, null=True)
+    
+    linkedin_url = models.URLField(blank=True, null=True)
+    twitter_url = models.URLField(blank=True, null=True)
+    facebook_url = models.URLField(blank=True, null=True)
+    instagram_url = models.URLField(blank=True, null=True)
+    website_url = models.URLField(blank=True, null=True)
 
     class Meta:
         verbose_name_plural = 'Teachers'
