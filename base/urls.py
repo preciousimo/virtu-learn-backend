@@ -79,4 +79,6 @@ urlpatterns = [
     path('get-messages/<int:teacher_id>/<int:student_id>', MessageList.as_view()),
     
     path('send-group-message/<int:teacher_id>', save_teacher_student_group_msg),
+    
+    path('fetch-my-teachers/<int:student_id>', MyTeacherList.as_view()),
 ]

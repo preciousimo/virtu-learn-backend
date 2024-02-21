@@ -255,6 +255,18 @@ class EnrolledStudentList(generics.ListAPIView):
             student_id = self.kwargs['student_id']
             student = get_object_or_404(Student, pk=student_id)
             return StudentCourseEnrollment.objects.filter(student=student).distinct()
+        
+
+class MyTeacherList(generics.ListAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+
+    def get_queryset(self):
+        if 'student_id' in self.kwargs:
+            student_id = self.kwargs['student_id']
+            sql=f"SELECT * FROM base_course as c,base_studentcourseenrollment as e,base_teacher as t WHERE c.teacher_id=t.id AND e.course_id=c.id AND e.student_id={student_id} GROUP BY c.teacher_id"
+            qs = Course.objects.raw(sql)
+            return qs
 
 
 class CourseRatingList(generics.ListCreateAPIView):
