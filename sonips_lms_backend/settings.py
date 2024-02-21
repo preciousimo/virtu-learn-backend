@@ -12,13 +12,13 @@ load_dotenv(os.path.join(BASE_DIR, ".env"))
 SECRET_KEY = str(os.getenv('SECRET_KEY'))
 DEBUG = False if os.getenv('DJANGO_ENV') == 'production' else True
 
-ALLOWED_HOSTS = ["virtulearn.vercel.app"]
+ALLOWED_HOSTS = ["virtulearn.vercel.app", "127.0.0.1", "localhost"]
 
 
 # Application definition
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
-    "https://virtulearn.vercel.app",
+   "https://virtulearn.vercel.app",
 ]
 CORS_ALLOW_CREDENTIALS = True
 
@@ -54,7 +54,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     
-    'sonips_lms_backend.restrict_host_middleware.RestrictHostMiddleware',
+    # 'sonips_lms_backend.restrict_host_middleware.RestrictHostMiddleware',
 ]
 
 ROOT_URLCONF = 'sonips_lms_backend.urls'
@@ -206,7 +206,7 @@ REST_FRAMEWORK['DEFAULT_THROTTLE_RATES'] = {
 }
 
 # Database Connection Pooling
-DATABASES['default']['CONN_MAX_AGE'] = 600  # 10 minutes
+DATABASES['default']['CONN_MAX_AGE'] = 600
 
 # Automated Testing
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
