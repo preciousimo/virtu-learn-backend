@@ -19,6 +19,7 @@ ALLOWED_HOSTS = ["virtulearn.vercel.app", ".vercel.app", "virtulearn-api.onrende
 CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
    "https://virtulearn.vercel.app",
+   "http://localhost:3000",
 ]
 CORS_ALLOW_CREDENTIALS = True
 
@@ -191,7 +192,7 @@ SESSION_COOKIE_SECURE = True
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
-SECURE_HSTS_SECONDS = 3600
+SECURE_HSTS_SECONDS = 7200
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_REDIRECT_EXEMPT = []
 
@@ -213,12 +214,12 @@ REST_FRAMEWORK['DEFAULT_THROTTLE_CLASSES'] = (
     'rest_framework.throttling.UserRateThrottle',
 )
 REST_FRAMEWORK['DEFAULT_THROTTLE_RATES'] = {
-    'anon': '100/day',
-    'user': '1000/day',
+    'anon': '200/day',
+    'user': '2000/day',
 }
 
 # Database Connection Pooling
-DATABASES['default']['CONN_MAX_AGE'] = 600
+DATABASES['default']['CONN_MAX_AGE'] = 1200
 
 # Automated Testing
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
