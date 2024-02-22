@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtu Learn Backend API Documentation</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+    <header class="bg-dark text-white py-5">
+        <div class="container">
+            <h1 class="display-4">Virtu Learn Backend API Documentation</h1>
+            <p class="lead">Explore the API endpoints and usage.</p>
+            <a href="/" class="btn btn-primary">Go to Landing Page</a>
+        </div>
+    </header>
+
+    <section class="py-5">
+        <div class="container">
+            <h2>API Endpoints</h2>
+            <ul class="list-group">
+                <li class="list-group-item">Teacher related URLs
+                    <ul>
+                        <li><code>GET /api/teacher/</code> - List of teachers</li>
+                        <li><code>GET /api/teacher/dashboard/{id}/</code> - Teacher dashboard</li>
+                        <li><code>GET /api/teacher/{id}/</code> - Get teacher details</li>
+                        <li><code>POST /api/teacher/change-password/{id}/</code> - Change teacher password</li>
+                        <li><code>POST /api/teacher-login/</code> - Teacher login</li>
+                        <li><code>GET /api/popular-teachers/</code> - Popular teachers</li>
+                        <li><code>GET /api/verify-teacher/{id}/</code> - Verify teacher via OTP</li>
+                        <li><code>POST /api/teacher-forgot-password/</code> - Forgot teacher password</li>
+                        <li><code>POST /api/teacher-change-password/{id}/</code> - Change teacher password</li>
+                    </ul>
+                </li>
+                <li class="list-group-item">Course related URLs
+                    <ul>
+                        <li><code>GET /api/category/</code> - List of categories</li>
+                        <li><code>GET /api/course/</code> - List of courses</li>
+                        <li><code>GET /api/popular-courses/</code> - List of popular courses</li>
+                        <li><code>GET /api/search-courses/{searchstring}/</code> - Search for courses</li>
+                        <li><code>POST /api/update-view/{course_id}/</code> - Update course view count</li>
+                        <li><code>GET /api/course/{id}/</code> - Get course details</li>
+                        <li><code>GET /api/chapter/{id}/</code> - Get chapter details</li>
+                        <li><code>GET /api/course-chapters/{course_id}/</code> - List of chapters for a course</li>
+                        <li><code>GET /api/teacher-courses/{teacher_id}/</code> - List of courses by a teacher</li>
+                        <li><code>GET /api/teacher-course-detail/{id}/</code> - Get course details for a teacher</li>
+                    </ul>
+                </li>
+                <li class="list-group-item">Student related URLs
+                    <ul>
+                        <li><code>GET /api/student-testimonial/</code> - List of student testimonials</li>
+                        <li><code>GET /api/student/</code> - List of students</li>
+                        <li><code>GET /api/student/dashboard/{id}/</code> - Student dashboard</li>
+                        <li><code>GET /api/student/{id}/</code> - Student details</li>
+                        <li><code>POST /api/student-login/</code> - Student login</li>
+                        <li><code>POST /api/student/change-password/{id}/</code> - Change student password</li>
+                        <li><code>GET /api/student-enroll-course/</code> - List of enrolled courses for a student</li>
+                        <li><code>GET /api/fetch-enroll-status/{student_id}/{course_id}/</code> - Fetch enrollment status</li>
+                        <li><code>GET /api/fetch-all-enrolled-students/{teacher_id}/</code> - List of all enrolled students for a teacher</li>
+                        <li><code>GET /api/fetch-enrolled-students/{course_id}/</code> - List of enrolled students for a course</li>
+                        <li><code>GET /api/fetch-enrolled-courses/{student_id}/</code> - List of enrolled courses for a student</li>
+                        <li><code>GET /api/fetch-recommended-courses/{studentId}/</code> - List of recommended courses for a student</li>
+                        <li><code>GET /api/course-rating/{course_id}/</code> - Rating for a course</li>
+                        <li><code>GET /api/fetch-rating-status/{student_id}/{course_id}/</code> - Fetch rating status for a student</li>
+                        <li><code>GET /api/student-add-favourite-course/</code> - Add course to favorites for a student</li>
+                        <li><code>DELETE /api/student-remove-favourite-course/{course_id}/{student_id}/</code> - Remove course from favorites for a student</li>
+                        <li><code>GET /api/fetch-favourite-status/{student_id}/{course_id}/</code> - Fetch favorite status for a course</li>
+                        <li><code>GET /api/fetch-favourite-courses/{student_id}/</code> - List of favorite courses for a student</li>
+                        <li><code>GET /api/student-assignment/{teacher_id}/{student_id}/</code> - List of assignments for a student</li>
+                        <li><code>GET /api/my-assignments/{studentId}/</code> - List of assignments for a student</li>
+                        <li><code>PUT /api/update-assignment/{id}/</code> - Update an assignment</li>
+                        <li><code>GET /api/student/fetch-all-notifications/{studentId}/</code> - List of all notifications for a student</li>
+                        <li><code>POST /api/save-notifications/</code> - Save notifications for a student</li>
+                    </ul>
+                </li>
+                <li class="list-group-item">Quiz related URLs
+                    <ul>
+                        <li><code>GET /api/quiz/</code> - List of quizzes</li>
+                        <li><code>GET /api/teacher-quiz/{teacher_id}/</code> - List of quizzes created by a teacher</li>
+                        <li><code>GET /api/teacher-quiz-detail/{id}/</code> - Details of a quiz created by a teacher</li>
+                        <li><code>GET /api/quiz/{id}/</code> - Details of a quiz</li>
+                        <li><code>GET /api/quiz-questions/{quiz_id}/</code> - List of questions for a quiz</li>
+                        <li><code>GET /api/quiz-questions/{quiz_id}/{limit}/</code> - List of limited questions for a quiz</li>
+                        <li><code>GET /api/fetch-quiz-assign-status/{quiz_id}/{course_id}/</code> - Fetch quiz assignment status</li>
+                        <li><code>POST /api/quiz-assign-course/</code> - Assign quiz to a course</li>
+                        <li><code>GET /api/fetch-assigned-quiz/{course_id}/</code> - List of quizzes assigned to a course</li>
+                        <li><code>POST /api/attempt-quiz/</code> - Attempt a quiz</li>
+                        <li><code>GET /api/quiz-questions/{quiz_id}/next-question/{question_id}/</code> - Next question in a quiz</li>
+                        <li><code>GET /api/fetch-quiz-attempt-status/{quiz_id}/{student_id}/</code> - Fetch quiz attempt status</li>
+                    </ul>
+                </li>
+                <li class="list-group-item">Study materials related URLs
+                    <ul>
+                        <li><code>GET /api/study-materials/{course_id}/</code> - List of study materials for a course</li>
+                        <li><code>GET /api/study-material/{id}/</code> - Details of a specific study material</li>
+                        <li><code>GET /api/student/study-materials/{course_id}/</code> - List of study materials for a course (student view)</li>
+                        <li><code>GET /api/attempted-quiz/{quiz_id}/</code> - List of attempted quizzes</li>
+                        <li><code>GET /api/fetch-quiz-result/{quiz_id}/{student_id}/</code> - Fetch result of a quiz for a student</li>
+                    </ul>
+                </li>
+                <li class="list-group-item">FAQ and contact URLs
+                    <ul>
+                        <li><code>GET /api/faq/</code> - List of FAQs</li>
+                        <li><code>GET /api/contact/</code> - Contact information</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </section>    
+
+    <section class="bg-light py-5">
+        <div class="container">
+            <h2>Usage</h2>
+            <p>Here's how you can use the Virtu Learn Backend API:</p>
+            <ol>
+                <li>Make HTTP requests to the appropriate endpoint using tools like Postman or cURL.</li>
+                <li>Include necessary parameters and headers in your requests.</li>
+                <li>Handle the responses based on the provided status codes and response data.</li>
+                <!-- Add more steps here if needed -->
+            </ol>
+        </div>
+    </section>
+
+    <footer class="bg-dark text-white py-3">
+        <div class="container text-center">
+            <p>&copy; 2024 <a href="http://preciousimo.netlify.app/">SONIPS Technologies</a>. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

@@ -8,10 +8,13 @@ from landing.models import User
 def landing(request):
     return render(request, 'landing/landing.html')
 
+def home(request):
+    return render(request, 'landing/home.html')
+
 def signup(request):
     if request.user.is_authenticated:
         messages.warning(request, "You are already logged in.")
-        return redirect('/')
+        return redirect('home')
     if request.method == 'POST':
         form = UserRegisterForm(request.POST or None)
         if form.is_valid():
@@ -20,7 +23,7 @@ def signup(request):
             messages.success(request, f"New Account Created: {username}.")
             new_user = authenticate(username=form.cleaned_data['email'], password=form.cleaned_data['password1'])
             login(request, new_user)
-            return redirect('/')
+            return redirect('home')
     else:
         form =  UserRegisterForm()
 
@@ -31,7 +34,7 @@ def signup(request):
 def login_view(request):
     if request.user.is_authenticated:
         messages.warning(request, "You are already logged in.")
-        return redirect('/')
+        return redirect('home')
     
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -44,7 +47,7 @@ def login_view(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, f"Welcome {email}. You are now logged in.")
-                return redirect('/')
+                return redirect('home')
             else:
                 messages.warning(request, "Incorrect password.")
                 
