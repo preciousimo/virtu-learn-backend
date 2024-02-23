@@ -31,7 +31,7 @@ class TeacherSerializer(BaseSerializer):
         # Send email with OTP
         subject = 'OTP for Verification'
         message = f'Hello {instance.name},\n\nYour One Time Password (OTP) for verification is: {otp}\n\nThank you,\nThe Team'
-        from_email = settings.EMAIL_HOST_USER
+        from_email = 'noreply@sonipstechmart.com'
         to_email = [instance.email]
         
         try:
